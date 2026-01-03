@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>UMichSwap — Safety</title>
+  <meta name="description" content="Safety tips and on-campus meetup guidelines for buying and selling with UMichSwap."/>
+  <style>
+    :root { --max:900px; --r:18px; --sh:0 12px 34px rgba(0,0,0,.08); --b:1px solid rgba(0,0,0,.08); --p:#1f4fff; --mut:rgba(16,17,20,.75);}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#f5f8ff 0%,#fff 60%);color:#101114}
+    .wrap{max-width:var(--max);margin:0 auto;padding:26px 18px 64px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border:var(--b);border-radius:var(--r);box-shadow:var(--sh);position:sticky;top:12px;z-index:10}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900}
+    .nav{display:flex;gap:14px;font-size:14px}
+    .nav a{text-decoration:none;opacity:.85} .nav a:hover{opacity:1;text-decoration:underline}
+    .card{border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:18px;margin-top:18px}
+    h1{margin:18px 0 8px;font-size:34px;letter-spacing:-.02em}
+    .sub{margin:0 0 16px;color:var(--mut)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;font-weight:900;font-size:14px;text-decoration:none}
+    .primary{background:var(--p);color:#fff}
+    .ghost{border:var(--b);background:#fff}
+    ul{margin:10px 0 0;padding-left:18px}
+    li{margin:10px 0;color:rgba(16,17,20,.85)}
+    footer{margin-top:22px;text-align:center;font-size:12px;color:rgba(16,17,20,.7)}
+    @media(max-width:920px){header{position:static}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><span aria-hidden="true">🟦</span><span>UMichSwap</span></div>
+      <nav class="nav">
+        <a href="index.html" id="nav_home">Home</a>
+        <a href="listings.html" id="nav_listings">Listings</a>
+        <a href="list-item.html" id="nav_list_item">List an item</a>
+        <a href="safety.html" id="nav_safety">Safety</a>
+      </nav>
+    </header>
+
+    <h1>Safety first</h1>
+    <p class="sub">Meet up smart: simple guidelines to keep buying and selling safe on campus.</p>
+
+    <section class="card">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn primary" href="index.html#waitlist" id="cta_join_waitlist">Join waitlist</a>
+        <a class="btn ghost" href="listings.html" id="cta_browse_listings">Browse listings</a>
+      </div>
+
+      <h2 style="margin:16px 0 6px;font-size:18px">Meetup tips</h2>
+      <ul>
+        <li>Meet in public, well-lit areas (Union, Diag, library entrances).</li>
+        <li>Bring a friend for high-value items.</li>
+        <li>Use cashless payment when possible.</li>
+        <li>Inspect items before exchanging payment.</li>
+        <li>If anything feels off, cancel the meetup.</li>
+      </ul>
+
+      <h2 style="margin:16px 0 6px;font-size:18px">Verification</h2>
+      <ul>
+        <li>Student-only access via UMich email verification (demo concept).</li>
+        <li>Report suspicious behavior and block users (future feature).</li>
+      </ul>
+
+      <p style="margin:16px 0 0;color:rgba(16,17,20,.75);font-size:13px">
+        Analytics idea: track how many visitors view Safety before converting (trust-building behavior).
+      </p>
+    </section>
+
+    <footer>© <span id="year"></span> UMichSwap</footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
