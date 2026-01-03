@@ -3,58 +3,133 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>UMichSwap — Item Details</title>
-  <meta name="description" content="View listing details on UMichSwap.">
+  <title>UMichSwap — Listing</title>
+  <meta name="description" content="View listing details on UMichSwap."/>
   <style>
-    :root { --max:1100px; --r:18px; --sh:0 12px 34px rgba(0,0,0,.08); --b:1px solid rgba(0,0,0,.08); --p:#1f4fff; --mut:rgba(16,17,20,.75);}
+    :root { --max:900px; --r:18px; --sh:0 12px 34px rgba(0,0,0,.08); --b:1px solid rgba(0,0,0,.08); --p:#1f4fff; --mut:rgba(16,17,20,.75); }
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#f5f8ff 0%,#fff 60%);color:#101114;line-height:1.5}
-    a{color:inherit}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#f5f8ff 0%,#fff 60%);color:#101114}
     .wrap{max-width:var(--max);margin:0 auto;padding:26px 18px 64px}
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border:var(--b);border-radius:var(--r);box-shadow:var(--sh);position:sticky;top:12px;z-index:10}
     .brand{display:flex;align-items:center;gap:10px;font-weight:900}
     .nav{display:flex;gap:14px;font-size:14px}
-    .nav a{text-decoration:none;opacity:.85}
-    .nav a:hover{opacity:1;text-decoration:underline}
-
-    .card{border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:18px}
-    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:16px}
-    .thumb{height:320px;border-radius:14px;border:var(--b);background:linear-gradient(135deg,#f2f5ff,#fff);display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(16,17,20,.45)}
-    h1{margin:0 0 8px;font-size:30px;letter-spacing:-.02em}
-    .sub{margin:0 0 12px;color:var(--mut)}
-    .row{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
-    .chip{font-size:13px;padding:8px 10px;border-radius:999px;border:var(--b);background:#eef3ff}
-    .price{font-size:24px;font-weight:1000}
-    .meta{font-size:13px;color:var(--mut);display:flex;gap:12px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;font-weight:900;font-size:14px;text-decoration:none;cursor:pointer;border:0}
+    .nav a{text-decoration:none;opacity:.85} .nav a:hover{opacity:1;text-decoration:underline}
+    .card{border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:18px;margin-top:18px}
+    h1{margin:18px 0 6px;font-size:30px;letter-spacing:-.02em}
+    .sub{margin:0 0 16px;color:var(--mut)}
+    .thumb{height:180px;border-radius:14px;border:var(--b);background:linear-gradient(135deg,#f2f5ff,#fff);display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(16,17,20,.45)}
+    .meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;color:var(--mut);font-size:13px}
+    .price{font-weight:900;color:#101114}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    label{font-size:13px;font-weight:800}
+    input,select,textarea{width:100%;padding:12px;border-radius:14px;border:1px solid rgba(0,0,0,.16);font-size:14px}
+    textarea{min-height:110px;resize:vertical}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;font-weight:900;font-size:14px;text-decoration:none;border:0;cursor:pointer}
     .primary{background:var(--p);color:#fff}
     .ghost{border:var(--b);background:#fff}
-    .divider{border:0;border-top:1px solid rgba(0,0,0,.08);margin:14px 0}
-    .kpi{font-size:12px;color:rgba(16,17,20,.7)}
-    .error{padding:14px;border:var(--b);border-radius:14px;background:#fff8e6}
+    .danger{background:#ff3b30;color:#fff}
     footer{margin-top:22px;text-align:center;font-size:12px;color:rgba(16,17,20,.7)}
-    @media(max-width:920px){header{position:static}.grid{grid-template-columns:1fr}.thumb{height:240px}}
+    @media(max-width:920px){header{position:static}.row2{grid-template-columns:1fr}}
   </style>
 </head>
-
 <body>
   <div class="wrap">
     <header>
       <div class="brand"><span aria-hidden="true">🟦</span><span>UMichSwap</span></div>
-      <nav class="nav" aria-label="Primary">
-        <a href="index.html" id="nav_home">Home</a>
-        <a href="listings.html" id="nav_listings">Listings</a>
-        <a href="list-item.html" id="nav_list_item">List an item</a>
-        <a href="safety.html" id="nav_safety">Safety</a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="listings.html">Listings</a>
+        <a href="list-item.html">List an item</a>
+        <a href="safety.html">Safety</a>
       </nav>
     </header>
 
-    <div class="row" style="margin-top:16px">
-      <a class="btn ghost" href="listings.html" id="btn_back_listings">← Back to listings</a>
-      <a class="btn ghost" href="index.html#waitlist" id="btn_join_waitlist_top">Join waitlist</a>
-    </div>
+    <h1 id="title">Listing</h1>
+    <p class="sub" id="subtitle">Loading…</p>
 
-    <div id="content"></div>
+    <section class="card" id="view_card" style="display:none;">
+      <div class="thumb">Photo</div>
+
+      <div class="meta">
+        <span class="price" id="price"></span>
+        <span id="category"></span>
+        <span id="campus"></span>
+        <span id="contact"></span>
+      </div>
+
+      <p style="margin:12px 0 0;white-space:pre-wrap" id="desc"></p>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn primary" id="btn_edit">Edit listing</button>
+        <button class="btn danger" id="btn_delete">Delete listing</button>
+        <a class="btn ghost" href="listings.html">Back to listings</a>
+      </div>
+    </section>
+
+    <section class="card" id="edit_card" style="display:none;">
+      <h2 style="margin:0 0 8px;font-size:18px">Edit listing</h2>
+
+      <form id="edit_form">
+        <div>
+          <label for="edit_title">Item title</label>
+          <input id="edit_title" required />
+        </div>
+
+        <div class="row2">
+          <div>
+            <label for="edit_category">Category</label>
+            <select id="edit_category" required>
+              <option>Furniture</option>
+              <option>Electronics</option>
+              <option>Textbooks</option>
+              <option>Clothing</option>
+              <option>Tickets</option>
+            </select>
+          </div>
+          <div>
+            <label for="edit_price">Price (USD)</label>
+            <input id="edit_price" type="number" min="0" step="1" required />
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label for="edit_campus">Pickup area</label>
+            <select id="edit_campus" required>
+              <option>Central Campus</option>
+              <option>North Campus</option>
+              <option>Diag / Union</option>
+            </select>
+          </div>
+          <div>
+            <label for="edit_contact">Contact preference</label>
+            <select id="edit_contact" required>
+              <option>In-app chat</option>
+              <option>Text message</option>
+              <option>Email</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="edit_desc">Description</label>
+          <textarea id="edit_desc" required></textarea>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn primary" type="submit">Save changes</button>
+          <button class="btn ghost" type="button" id="btn_cancel">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card" id="error_card" style="display:none;">
+      <strong>This listing may have been removed or the link is incorrect.</strong>
+      <p style="margin:8px 0 0;color:rgba(16,17,20,.75)">Try going back to Listings and selecting an item again.</p>
+      <div style="margin-top:12px">
+        <a class="btn primary" href="listings.html">Back to Listings</a>
+      </div>
+    </section>
 
     <footer>© <span id="year"></span> UMichSwap</footer>
   </div>
@@ -62,119 +137,123 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // --- Mock product database (edit these anytime) ---
-    const ITEMS = {
-      1: {
-        title: "Mini fridge (good condition)",
-        price: 45,
-        campus: "North Campus",
-        category: "Electronics",
-        condition: "Used - Good",
-        seller: "Verified UMich student",
-        description:
-          "Compact mini fridge with working cooling. Minor scratches on the side. Perfect for dorm rooms. Pickup near North Campus.",
-        pickup: "Meet at Pierpont Commons (safe pickup spot).",
-        tags: ["Dorm essentials", "Pickup only", "No delivery"]
-      },
-      2: {
-        title: "Desk lamp + organizer",
-        price: 12,
-        campus: "Central Campus",
-        category: "Furniture",
-        condition: "Used - Like New",
-        seller: "Verified UMich student",
-        description:
-          "LED desk lamp with organizer tray. Bright settings + USB power. Great for study desks.",
-        pickup: "Meet at Shapiro Library entrance.",
-        tags: ["Study setup", "Great condition", "Quick pickup"]
-      },
-      3: {
-        title: "ECON / Marketing textbooks bundle",
-        price: 30,
-        campus: "Diag pickup",
-        category: "Textbooks",
-        condition: "Used - Fair",
-        seller: "Verified UMich student",
-        description:
-          "Bundle of textbooks/notes for intro ECON + marketing courses. Some highlighting and notes included.",
-        pickup: "Meet at the Diag (daytime).",
-        tags: ["Bundle deal", "Student-friendly", "Limited time"]
-      }
-    };
+    const STORAGE_KEY = "umichswap_listings";
 
-    // Read item id from URL like item.html?id=2
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-    const item = ITEMS[id];
+    function getQueryParam(name){
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
 
-    const content = document.getElementById("content");
+    function loadUserListings(){
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    }
 
-    if (!item) {
-      content.innerHTML = `
-        <div class="card error" id="item_not_found">
-          <strong>Listing not found.</strong>
-          <p style="margin:8px 0 0;color:rgba(16,17,20,.75)">
-            This listing may have been removed or the link is incorrect.
-          </p>
-          <div class="row" style="margin-top:12px">
-            <a class="btn primary" href="listings.html" id="cta_go_listings">Go to listings</a>
-            <a class="btn ghost" href="index.html#waitlist" id="cta_join_waitlist_error">Join waitlist</a>
-          </div>
-        </div>
-      `;
+    function saveUserListings(list){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function loadDemoFeatured(){
+      return JSON.parse(localStorage.getItem("umichswap_demo_featured") || "[]");
+    }
+
+    function escapeHTML(s){
+      return String(s).replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+    }
+
+    const listingId = getQueryParam("id");
+    const userListings = loadUserListings();
+    const demoListings = loadDemoFeatured();
+
+    // Find in user listings first
+    let listing = userListings.find(x => String(x.id) === String(listingId));
+
+    // If not found, check demo featured (demo ids like demo1)
+    if (!listing) listing = demoListings.find(x => String(x.id) === String(listingId));
+
+    const viewCard = document.getElementById("view_card");
+    const editCard = document.getElementById("edit_card");
+    const errorCard = document.getElementById("error_card");
+
+    if (!listingId || !listing) {
+      document.getElementById("title").textContent = "Listing not found";
+      document.getElementById("subtitle").textContent = "";
+      errorCard.style.display = "block";
     } else {
-      document.title = `UMichSwap — ${item.title}`;
+      // Render view
+      document.getElementById("title").textContent = listing.title;
+      document.getElementById("subtitle").textContent = "Listing details (demo).";
+      document.getElementById("price").textContent = `$${Number(listing.price || 0)}`;
+      document.getElementById("category").textContent = listing.category || "";
+      document.getElementById("campus").textContent = listing.campus || "";
+      document.getElementById("contact").textContent = listing.contact || "";
+      document.getElementById("desc").textContent = listing.desc || "";
 
-      content.innerHTML = `
-        <div class="grid">
-          <section class="card">
-            <div class="thumb" id="product_image">Photo</div>
-            <p class="kpi">Tip for analytics: track <code>view_item</code> when this page loads.</p>
-          </section>
+      viewCard.style.display = "block";
 
-          <aside class="card">
-            <h1 id="product_title">${item.title}</h1>
-            <p class="sub" id="product_desc_short">${item.category} • ${item.condition}</p>
+      const isDemo = String(listing.id).startsWith("demo");
 
-            <div class="price" id="product_price">$${item.price}</div>
-            <div class="meta" style="margin-top:8px">
-              <span id="product_campus">📍 ${item.campus}</span>
-              <span id="product_seller">✅ ${item.seller}</span>
-            </div>
+      // Demo listings: disable edit/delete
+      if (isDemo) {
+        document.getElementById("btn_edit").disabled = true;
+        document.getElementById("btn_delete").disabled = true;
+        document.getElementById("btn_edit").textContent = "Demo listing (cannot edit)";
+        document.getElementById("btn_delete").textContent = "Demo listing (cannot delete)";
+        document.getElementById("btn_edit").style.opacity = 0.6;
+        document.getElementById("btn_delete").style.opacity = 0.6;
+      }
 
-            <div class="row" style="margin-top:12px">
-              ${item.tags.map(t => `<span class="chip">${t}</span>`).join("")}
-            </div>
+      // Edit flow (only for user listings)
+      document.getElementById("btn_edit").addEventListener("click", () => {
+        if (isDemo) return;
+        viewCard.style.display = "none";
+        editCard.style.display = "block";
 
-            <hr class="divider"/>
+        document.getElementById("edit_title").value = listing.title || "";
+        document.getElementById("edit_category").value = listing.category || "Furniture";
+        document.getElementById("edit_price").value = Number(listing.price || 0);
+        document.getElementById("edit_campus").value = listing.campus || "Central Campus";
+        document.getElementById("edit_contact").value = listing.contact || "In-app chat";
+        document.getElementById("edit_desc").value = listing.desc || "";
+      });
 
-            <h3 style="margin:0 0 6px;font-size:16px">Description</h3>
-            <p style="margin:0 0 12px;color:rgba(16,17,20,.78)" id="product_description">${item.description}</p>
+      document.getElementById("btn_cancel").addEventListener("click", () => {
+        editCard.style.display = "none";
+        viewCard.style.display = "block";
+      });
 
-            <h3 style="margin:0 0 6px;font-size:16px">Pickup</h3>
-            <p style="margin:0;color:rgba(16,17,20,.78)" id="product_pickup">${item.pickup}</p>
+      document.getElementById("edit_form").addEventListener("submit", (e) => {
+        e.preventDefault();
 
-            <hr class="divider"/>
+        const updated = {
+          ...listing,
+          title: document.getElementById("edit_title").value.trim(),
+          category: document.getElementById("edit_category").value,
+          price: Number(document.getElementById("edit_price").value),
+          campus: document.getElementById("edit_campus").value,
+          contact: document.getElementById("edit_contact").value,
+          desc: document.getElementById("edit_desc").value.trim()
+        };
 
-            <div class="row">
-              <!-- These IDs are great for GTM click tracking -->
-              <a class="btn primary" href="index.html#waitlist" id="cta_contact_seller">Contact seller (demo)</a>
-              <button class="btn ghost" id="btn_save_item" type="button">Save</button>
-              <a class="btn ghost" href="safety.html" id="cta_view_safety">Safety tips</a>
-            </div>
+        const list = loadUserListings();
+        const idx = list.findIndex(x => String(x.id) === String(listingId));
+        if (idx >= 0) {
+          list[idx] = updated;
+          saveUserListings(list);
+        }
 
-            <p class="kpi">
-              Demo buttons (no backend). Perfect for GA4 events: <code>select_item</code>, <code>contact_seller</code>, <code>save_item</code>.
-            </p>
-          </aside>
-        </div>
-      `;
+        // Reload
+        window.location.href = `item.html?id=${encodeURIComponent(listingId)}&updated=1`;
+      });
 
-      // Small UX-only interaction (also trackable)
-      const saveBtn = document.getElementById("btn_save_item");
-      saveBtn.addEventListener("click", () => {
-        saveBtn.textContent = "Saved ✓";
-        saveBtn.disabled = true;
+      // Delete flow (only for user listings)
+      document.getElementById("btn_delete").addEventListener("click", () => {
+        if (isDemo) return;
+        const ok = confirm("Delete this listing? (Demo: removes from your local browser)");
+        if (!ok) return;
+
+        const list = loadUserListings().filter(x => String(x.id) !== String(listingId));
+        saveUserListings(list);
+        window.location.href = "listings.html?deleted=1";
       });
     }
   </script>
