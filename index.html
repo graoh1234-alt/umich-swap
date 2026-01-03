@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Free Student Marketing Analytics Workshop</title>
+  <meta name="description" content="A free, hands-on student workshop to learn GA4, Tag Manager, and marketing analytics through real projects." />
+
+  <!-- Basic social sharing (nice for LinkedIn/IG previews) -->
+  <meta property="og:title" content="Free Student Marketing Analytics Workshop" />
+  <meta property="og:description" content="Learn GA4 + GTM + marketing analytics with a hands-on workshop and a real landing page project." />
+  <meta property="og:type" content="website" />
+
+  <style>
+    :root { --max: 980px; --radius: 16px; --shadow: 0 10px 30px rgba(0,0,0,.08); }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: #111;
+      background: linear-gradient(180deg, #f6f8ff 0%, #ffffff 55%);
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 28px 18px 60px; }
+    header {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 16px; background: rgba(255,255,255,.75); backdrop-filter: blur(8px);
+      border: 1px solid rgba(0,0,0,.06); border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: sticky; top: 12px; z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+    .badge { font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(0,0,0,.08); background: #fff; }
+    .nav { display: flex; gap: 14px; font-size: 14px; }
+    .nav a { text-decoration: none; opacity: .85; }
+    .nav a:hover { opacity: 1; text-decoration: underline; }
+
+    .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; margin-top: 18px; }
+    .card {
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    h1 { margin: 0 0 10px; font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; }
+    .sub { margin: 0 0 18px; font-size: 16px; opacity: .85; }
+    .pillrow { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 18px; }
+    .pill { font-size: 13px; padding: 8px 10px; border-radius: 999px; background: #f3f5ff; border: 1px solid rgba(0,0,0,.06); }
+
+    .ctaRow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    button, .btn {
+      cursor: pointer;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight: 700;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: transform .06s ease, opacity .2s ease;
+    }
+    button:active, .btn:active { transform: translateY(1px); }
+    .primary { background: #3b5cff; color: #fff; }
+    .ghost { background: #fff; border: 1px solid rgba(0,0,0,.12); }
+    .fine { font-size: 12px; opacity: .7; margin-top: 10px; }
+
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .mini h3 { margin: 0 0 8px; font-size: 16px; }
+    .mini p { margin: 0; font-size: 14px; opacity: .85; }
+
+    .agenda { margin-top: 14px; padding-left: 16px; }
+    .agenda li { margin: 8px 0; }
+
+    form { display: grid; gap: 10px; margin-top: 12px; }
+    label { font-size: 13px; font-weight: 600; }
+    input, select {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.14);
+      background: #fff;
+      font-size: 14px;
+    }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .note { font-size: 12px; opacity: .75; }
+    .success {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: #f6fffb;
+    }
+    footer { margin-top: 22px; font-size: 12px; opacity: .75; text-align: center; }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; }
+      h1 { font-size: 34px; }
+      .grid3 { grid-template-columns: 1fr; }
+      header { position: static; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <span aria-hidden="true">📈</span>
+        <span>Student Marketing Analytics Workshop</span>
+        <span class="badge">FREE</span>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#agenda">Agenda</a>
+        <a href="#signup">Sign up</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <!-- Left: value prop -->
+      <section class="card" id="about">
+        <h1>Learn GA4 + Tag Manager by building a real campaign.</h1>
+        <p class="sub">
+          A hands-on workshop for students who want to practice marketing measurement: events, conversions, funnels, and
+          a clean dashboard you can show in interviews.
+        </p>
+
+        <div class="pillrow" role="list">
+          <span class="pill" role="listitem">✅ Beginner-friendly</span>
+          <span class="pill" role="listitem">✅ Real event tracking</span>
+          <span class="pill" role="listitem">✅ Portfolio-ready</span>
+          <span class="pill" role="listitem">✅ 60–90 minutes</span>
+        </div>
+
+        <div class="ctaRow">
+          <!-- CTA button for tracking -->
+          <a class="btn primary" id="cta_primary" href="#signup">Reserve my spot</a>
+          <a class="btn ghost" id="cta_secondary" href="#agenda">See agenda</a>
+        </div>
+        <p class="fine">Limited spots • Bring a laptop • No coding required (optional bonus section for HTML).</p>
+
+        <div class="grid3">
+          <div class="card mini">
+            <h3>What you’ll build</h3>
+            <p>A simple landing page + conversion events you can validate in GA4 DebugView.</p>
+          </div>
+          <div class="card mini">
+            <h3>What you’ll learn</h3>
+            <p>How marketers measure performance: CTA clicks, form submits, drop-offs, and channel comparisons.</p>
+          </div>
+          <div class="card mini">
+            <h3>What you’ll leave with</h3>
+            <p>A mini case study outline + screenshots for your portfolio/resume.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: signup form -->
+      <aside class="card" id="signup">
+        <h2 style="margin:0 0 6px; font-size:22px;">Sign up</h2>
+        <p class="sub" style="margin:0 0 12px;">
+          Enter your details to get the workshop link and materials.
+        </p>
+
+        <!-- Signup form for tracking -->
+        <form id="signup_form">
+          <div class="row2">
+            <div>
+              <label for="firstName">First name</label>
+              <input id="firstName" name="firstName" type="text" placeholder="Grace" required />
+            </div>
+            <div>
+              <label for="lastName">Last name</label>
+              <input id="lastName" name="lastName" type="text" placeholder="Oh" required />
+            </div>
+          </div>
+
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@email.com" required />
+          </div>
+
+          <div class="row2">
+            <div>
+              <label for="interest">Interest</label>
+              <select id="interest" name="interest" required>
+                <option value="" selected disabled>Select one</option>
+                <option value="marketing-internships">Marketing internships</option>
+                <option value="product-analytics">Product analytics</option>
+                <option value="growth-marketing">Growth marketing</option>
+                <option value="seo-content">SEO + content</option>
+              </select>
+            </div>
+            <div>
+              <label for="level">Experience level</label>
+              <select id="level" name="level" required>
+                <option value="" selected disabled>Select one</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="primary" id="btn_submit" type="submit">Get the workshop link</button>
+          <p class="note">By signing up, you agree to receive workshop updates. You can unsubscribe anytime.</p>
+        </form>
+
+        <div class="success" id="success_box" role="status" aria-live="polite">
+          ✅ Thanks! You’re signed up. (Demo form: no data is actually sent anywhere.)
+        </div>
+
+        <hr style="border:0; border-top:1px solid rgba(0,0,0,.08); margin:16px 0;" />
+
+        <!-- Secondary CTA: resume download link for tracking -->
+        <p style="margin:0 0 6px; font-weight:700;">Want the checklist?</p>
+        <a class="btn ghost" id="resume_download" href="workshop-checklist.pdf" download>
+          Download the GA4 tracking checklist (PDF)
+        </a>
+        <p class="note">Tip: replace <code>workshop-checklist.pdf</code> with your real PDF file later.</p>
+      </aside>
+    </main>
+
+    <section class="card" id="agenda" style="margin-top:18px;">
+      <h2 style="margin:0 0 10px; font-size:22px;">Agenda</h2>
+      <ul class="agenda">
+        <li>Set up GA4 + Tag Manager (and why companies prefer GTM)</li>
+        <li>Define KPIs: CTA clicks, form submit conversions, engagement</li>
+        <li>Implement tracking: click + form events (plus scroll depth)</li>
+        <li>Validate in GA4 DebugView + GTM Preview</li>
+        <li>Build a simple dashboard + write 3 insights</li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> Student Marketing Analytics Workshop • Built for GA4 + GTM practice.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Small UX-only script (also helps you test GA4 event tracking on interactions)
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Demo-only form submit handler (does not send data anywhere)
+    const form = document.getElementById("signup_form");
+    const successBox = document.getElementById("success_box");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      successBox.style.display = "block";
+      form.reset();
+      // Note: GA4 tracking should be handled via Google Tag Manager (recommended).
+      // You will set up a GTM "Form Submission" trigger for #signup_form.
+    });
+  </script>
+</body>
+</html>
