@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>UMichSwap — Browse Listings</title>
-  <meta name="description" content="Browse student listings on UMichSwap. Filter by category, campus, and price."/>
+  <title>UMichSwap — Listings</title>
+  <meta name="description" content="Browse student listings on UMichSwap."/>
   <style>
     :root { --max:1100px; --r:18px; --sh:0 12px 34px rgba(0,0,0,.08); --b:1px solid rgba(0,0,0,.08); --p:#1f4fff; --mut:rgba(16,17,20,.75);}
     *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#f5f8ff 0%,#fff 60%);color:#101114}
@@ -13,9 +13,9 @@
     .brand{display:flex;align-items:center;gap:10px;font-weight:900}
     .nav{display:flex;gap:14px;font-size:14px}
     .nav a{text-decoration:none;opacity:.85} .nav a:hover{opacity:1;text-decoration:underline}
-    .card{border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:18px}
     h1{margin:18px 0 8px;font-size:34px;letter-spacing:-.02em}
     .sub{margin:0 0 16px;color:var(--mut)}
+    .card{border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:18px}
     .filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin-top:12px}
     input,select{width:100%;padding:12px;border-radius:14px;border:1px solid rgba(0,0,0,.16);font-size:14px}
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
@@ -23,11 +23,9 @@
     .thumb{height:120px;border-radius:14px;border:var(--b);background:linear-gradient(135deg,#f2f5ff,#fff);display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(16,17,20,.45);margin-bottom:10px}
     .meta{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--mut)}
     .price{font-weight:900;color:#101114}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;font-weight:900;font-size:14px;text-decoration:none}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;font-weight:900;font-size:14px;text-decoration:none;border:0;cursor:pointer}
     .primary{background:var(--p);color:#fff}
     .ghost{border:var(--b);background:#fff}
-    .sectionTitle{margin:0 0 8px;font-size:18px;letter-spacing:-.01em}
-    .empty{border:var(--b);border-radius:14px;background:#fff8e6;padding:12px;color:rgba(16,17,20,.75)}
     footer{margin-top:22px;text-align:center;font-size:12px;color:rgba(16,17,20,.7)}
     @media(max-width:920px){header{position:static}.filters{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
   </style>
@@ -45,7 +43,7 @@
     </header>
 
     <h1>Browse listings</h1>
-    <p class="sub">Filter by category, campus, and price. Click any item to view details.</p>
+    <p class="sub">Your submitted listings are saved locally (demo). Click any item for details.</p>
 
     <section class="card">
       <div class="filters">
@@ -75,41 +73,15 @@
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
         <a class="btn primary" href="list-item.html" id="cta_list_item">List an item</a>
         <a class="btn ghost" href="index.html#waitlist" id="cta_join_waitlist">Join waitlist</a>
+        <button class="btn ghost" id="btn_clear">Clear my demo data</button>
       </div>
     </section>
 
-    <!-- ✅ NEW: Submitted listings section -->
-    <section style="margin-top:16px">
-      <h2 class="sectionTitle">My submitted listings (demo)</h2>
-      <div id="user_listings_empty" class="empty" style="display:none;">
-        No submitted listings yet. Create one from <a href="list-item.html">List an item</a>.
-      </div>
-      <div class="grid" id="user_listings_grid"></div>
-    </section>
+    <h2 style="margin:18px 0 8px;font-size:20px">My submitted listings (demo)</h2>
+    <section class="grid" id="user_grid" aria-label="User listings grid"></section>
 
-    <!-- Demo listings -->
-    <section style="margin-top:18px">
-      <h2 class="sectionTitle">Featured listings (demo)</h2>
-      <div class="grid" aria-label="Listings grid">
-        <a class="item" href="item.html?id=1" id="listing_1">
-          <div class="thumb">Photo</div>
-          <h3 style="margin:0 0 6px;font-size:15px">Mini fridge (good condition)</h3>
-          <div class="meta"><span class="price">$45</span><span>North Campus</span></div>
-        </a>
-
-        <a class="item" href="item.html?id=2" id="listing_2">
-          <div class="thumb">Photo</div>
-          <h3 style="margin:0 0 6px;font-size:15px">Desk lamp + organizer</h3>
-          <div class="meta"><span class="price">$12</span><span>Central Campus</span></div>
-        </a>
-
-        <a class="item" href="item.html?id=3" id="listing_3">
-          <div class="thumb">Photo</div>
-          <h3 style="margin:0 0 6px;font-size:15px">ECON/Marketing textbooks bundle</h3>
-          <div class="meta"><span class="price">$30</span><span>Diag / Union</span></div>
-        </a>
-      </div>
-    </section>
+    <h2 style="margin:18px 0 8px;font-size:20px">Featured listings (demo)</h2>
+    <section class="grid" id="featured_grid" aria-label="Featured listings grid"></section>
 
     <footer>© <span id="year"></span> UMichSwap</footer>
   </div>
@@ -117,36 +89,64 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // ✅ This MUST match list-item.html
     const STORAGE_KEY = "umichswap_listings";
 
-    const grid = document.getElementById("user_listings_grid");
-    const empty = document.getElementById("user_listings_empty");
+    const demoFeatured = [
+      { id: "demo1", title: "Mini fridge (demo)", price: 45, campus: "North Campus", category: "Furniture", desc:"Clean, works great. Pick up near North Campus." },
+      { id: "demo2", title: "Desk lamp + organizer (demo)", price: 12, campus: "Central Campus", category: "Electronics", desc:"Bright lamp, includes organizer tray." },
+      { id: "demo3", title: "Textbooks bundle (demo)", price: 30, campus: "Diag / Union", category: "Textbooks", desc:"Econ + marketing books. Highlighted but usable." }
+    ];
 
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    // Store demo featured in localStorage so item.html can read it too
+    localStorage.setItem("umichswap_demo_featured", JSON.stringify(demoFeatured));
 
-    if (!saved.length) {
-      empty.style.display = "block";
-    } else {
-      empty.style.display = "none";
-      grid.innerHTML = saved.map((l) => {
-        const price = Number(l.price) || 0;
-        const campus = l.campus || "Campus";
-        const title = (l.title || "Untitled").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-        const cat = (l.category || "Category").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-
-        // Link to item page (detail page). item.html will show "not found" unless we also support user items there.
-        // Still fine for analytics; next step we can make item.html read user listings too.
-        return `
-          <a class="item" href="item.html?id=${l.id}" id="user_listing_${l.id}">
-            <div class="thumb">New</div>
-            <h3 style="margin:0 0 6px;font-size:15px">${title}</h3>
-            <div class="meta"><span class="price">$${price}</span><span>${campus}</span></div>
-            <div style="margin-top:6px;font-size:12px;color:rgba(16,17,20,.65)">${cat}</div>
-          </a>
-        `;
-      }).join("");
+    function loadUserListings() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     }
+
+    function cardHTML(x, isDemo=false) {
+      const campus = x.campus || "—";
+      const title = x.title || "Untitled";
+      const price = Number(x.price || 0);
+      const id = x.id;
+      return `
+        <a class="item" href="item.html?id=${encodeURIComponent(id)}" data-id="${String(id)}">
+          <div class="thumb">${isDemo ? "Demo" : "New"}</div>
+          <h3 style="margin:0 0 6px;font-size:15px">${escapeHTML(title)}</h3>
+          <div class="meta">
+            <span class="price">$${price}</span>
+            <span>${escapeHTML(campus)}</span>
+          </div>
+          <div style="margin-top:6px;font-size:12px;color:rgba(16,17,20,.72)">${escapeHTML(x.category || "")}</div>
+        </a>
+      `;
+    }
+
+    function escapeHTML(s){
+      return String(s).replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+    }
+
+    function render() {
+      const userGrid = document.getElementById("user_grid");
+      const featuredGrid = document.getElementById("featured_grid");
+
+      const user = loadUserListings();
+      userGrid.innerHTML = user.length ? user.map(x => cardHTML(x,false)).join("") : `
+        <div class="card" style="grid-column:1/-1">
+          No submitted listings yet. Try <a href="list-item.html">List an item</a>.
+        </div>
+      `;
+
+      featuredGrid.innerHTML = demoFeatured.map(x => cardHTML(x,true)).join("");
+    }
+
+    document.getElementById("btn_clear").addEventListener("click", () => {
+      localStorage.removeItem(STORAGE_KEY);
+      render();
+      alert("Cleared demo listings.");
+    });
+
+    render();
   </script>
 </body>
 </html>
