@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>UMichSwap — Browse Listings</title>
+  <meta name="description" content="Browse student listings on UMichSwap. Filter by category, campus, and price."/>
+  <style>
+    :root { --max:1100px; --r:18px; --sh:0 12px 34px rgba(0,0,0,.08); --b:1px solid rgba(0,0,0,.08); --p:#1f4fff; --mut:rgba(16,17,20,.75);}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#f5f8ff 0%,#fff 60%);color:#101114}
+    .wrap{max-width:var(--max);margin:0 auto;padding:26px 18px 64px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border:var(--b);border-radius:var(--r);box-shadow:var(--sh);position:sticky;top:12px;z-index:10}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900}
+    .nav{display:flex;gap:14px;font-size:14px}
+    .nav a{text-decoration:none;opacity:.85} .nav a:hover{opacity:1;text-decoration:underline}
+    .card{border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:18px}
+    h1{margin:18px 0 8px;font-size:34px;letter-spacing:-.02em}
+    .sub{margin:0 0 16px;color:var(--mut)}
+    .filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin-top:12px}
+    input,select{width:100%;padding:12px;border-radius:14px;border:1px solid rgba(0,0,0,.16);font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+    .item{display:block;text-decoration:none;color:inherit;border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:14px}
+    .thumb{height:120px;border-radius:14px;border:var(--b);background:linear-gradient(135deg,#f2f5ff,#fff);display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(16,17,20,.45);margin-bottom:10px}
+    .meta{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--mut)}
+    .price{font-weight:900;color:#101114}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;font-weight:900;font-size:14px;text-decoration:none}
+    .primary{background:var(--p);color:#fff}
+    .ghost{border:var(--b);background:#fff}
+    footer{margin-top:22px;text-align:center;font-size:12px;color:rgba(16,17,20,.7)}
+    @media(max-width:920px){header{position:static}.filters{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><span aria-hidden="true">🟦</span><span>UMichSwap</span></div>
+      <nav class="nav">
+        <a href="index.html" id="nav_home">Home</a>
+        <a href="listings.html" id="nav_listings">Listings</a>
+        <a href="list-item.html" id="nav_list_item">List an item</a>
+        <a href="safety.html" id="nav_safety">Safety</a>
+      </nav>
+    </header>
+
+    <h1>Browse listings</h1>
+    <p class="sub">Filter by category, campus, and price. Click any item to view details.</p>
+
+    <section class="card">
+      <div class="filters">
+        <input id="search" placeholder="Search (e.g., mini fridge, textbook, lamp)" />
+        <select id="category">
+          <option value="">Category</option>
+          <option>Furniture</option>
+          <option>Electronics</option>
+          <option>Textbooks</option>
+          <option>Clothing</option>
+          <option>Tickets</option>
+        </select>
+        <select id="campus">
+          <option value="">Campus</option>
+          <option>Central</option>
+          <option>North</option>
+        </select>
+        <select id="price">
+          <option value="">Price</option>
+          <option>Under $20</option>
+          <option>$20–$50</option>
+          <option>$50+</option>
+        </select>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <a class="btn primary" href="index.html#waitlist" id="cta_join_waitlist">Join waitlist</a>
+        <a class="btn ghost" href="list-item.html" id="cta_list_item">List an item</a>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Listings grid">
+      <a class="item" href="item.html?id=1" id="listing_1">
+        <div class="thumb">Photo</div>
+        <h3 style="margin:0 0 6px;font-size:15px">Mini fridge (good condition)</h3>
+        <div class="meta"><span class="price">$45</span><span>North Campus</span></div>
+      </a>
+
+      <a class="item" href="item.html?id=2" id="listing_2">
+        <div class="thumb">Photo</div>
+        <h3 style="margin:0 0 6px;font-size:15px">Desk lamp + organizer</h3>
+        <div class="meta"><span class="price">$12</span><span>Central Campus</span></div>
+      </a>
+
+      <a class="item" href="item.html?id=3" id="listing_3">
+        <div class="thumb">Photo</div>
+        <h3 style="margin:0 0 6px;font-size:15px">ECON/Marketing textbooks bundle</h3>
+        <div class="meta"><span class="price">$30</span><span>Diag pickup</span></div>
+      </a>
+    </section>
+
+    <footer>© <span id="year"></span> UMichSwap</footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
