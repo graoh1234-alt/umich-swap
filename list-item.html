@@ -96,12 +96,12 @@
         </div>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
-          <button class="btn primary" id="btn_list_submit" type="submit">Submit listing (demo)</button>
+          <button class="btn primary" id="btn_list_submit" type="submit">Submit listing</button>
           <a class="btn ghost" id="cta_back_listings" href="listings.html">Back to listings</a>
         </div>
 
         <div class="success" id="success_box" role="status" aria-live="polite">
-          ✅ Listing submitted (demo). In GA4, mark this as a conversion if you want a seller funnel.
+          ✅ Listing submitted. Redirecting you to Listings…
         </div>
 
         <p style="margin:10px 0 0;font-size:12px;color:rgba(16,17,20,.7)">
@@ -115,13 +115,44 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
     const form = document.getElementById("list_item_form");
     const box = document.getElementById("success_box");
 
+    // localStorage key for saving listings
+    const STORAGE_KEY = "umichswap_listings";
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
+
+      // Build a listing object from the form values
+      const listing = {
+        id: Date.now(), // unique id
+        title: document.getElementById("title").value.trim(),
+        category: document.getElementById("category").value,
+        price: Number(document.getElementById("price").value),
+        campus: document.getElementById("campus").value,
+        contact: document.getElementById("contact").value,
+        desc: document.getElementById("desc").value.trim(),
+        createdAt: new Date().toISOString()
+      };
+
+      // Load existing listings
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+      // Add newest to the top
+      existing.unshift(listing);
+
+      // Save back to localStorage
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+
+      // Show success message
       box.style.display = "block";
-      form.reset();
+
+      // Redirect to listings so user sees it appear
+      setTimeout(() => {
+        window.location.href = "listings.html?new=1";
+      }, 600);
     });
   </script>
 </body>
