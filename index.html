@@ -3,106 +3,130 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Free Student Marketing Analytics Workshop</title>
-  <meta name="description" content="A free, hands-on student workshop to learn GA4, Tag Manager, and marketing analytics through real projects." />
+  <title>UMichSwap — Buy & Sell on Campus</title>
+  <meta name="description" content="UMichSwap is a student-only marketplace to buy and sell items safely on campus. List in minutes, chat, and meet on campus." />
 
-  <!-- Basic social sharing (nice for LinkedIn/IG previews) -->
-  <meta property="og:title" content="Free Student Marketing Analytics Workshop" />
-  <meta property="og:description" content="Learn GA4 + GTM + marketing analytics with a hands-on workshop and a real landing page project." />
+  <!-- Social preview -->
+  <meta property="og:title" content="UMichSwap — Buy & Sell on Campus" />
+  <meta property="og:description" content="A student-only marketplace for buying & selling on campus. List in minutes. Meet safely." />
   <meta property="og:type" content="website" />
 
   <style>
-    :root { --max: 980px; --radius: 16px; --shadow: 0 10px 30px rgba(0,0,0,.08); }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color: #111;
-      background: linear-gradient(180deg, #f6f8ff 0%, #ffffff 55%);
-      line-height: 1.5;
+    :root {
+      --max: 1100px;
+      --radius: 18px;
+      --shadow: 0 12px 34px rgba(0,0,0,.08);
+      --border: 1px solid rgba(0,0,0,.08);
+      --bg: linear-gradient(180deg, #f5f8ff 0%, #ffffff 60%);
+      --text: #101114;
+      --muted: rgba(16,17,20,.75);
+      --chip: #eef3ff;
+      --primary: #1f4fff;
+      --primary2: #0b2ea8;
+      --warnbg: #fff8e6;
     }
-    a { color: inherit; }
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 28px 18px 60px; }
-    header {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      padding: 14px 16px; background: rgba(255,255,255,.75); backdrop-filter: blur(8px);
-      border: 1px solid rgba(0,0,0,.06); border-radius: var(--radius);
-      box-shadow: var(--shadow);
+    * { box-sizing: border-box; }
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--text); background: var(--bg); line-height:1.5;
+    }
+    a{ color: inherit; }
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 26px 18px 64px; }
+
+    /* Header */
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 14px 16px; background: rgba(255,255,255,.78); backdrop-filter: blur(10px);
+      border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
       position: sticky; top: 12px; z-index: 10;
     }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
-    .badge { font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(0,0,0,.08); background: #fff; }
-    .nav { display: flex; gap: 14px; font-size: 14px; }
-    .nav a { text-decoration: none; opacity: .85; }
-    .nav a:hover { opacity: 1; text-decoration: underline; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing: -0.02em; }
+    .badge{ font-size: 12px; padding: 6px 10px; border-radius: 999px; border: var(--border); background:#fff; color: rgba(16,17,20,.8); }
+    .nav{ display:flex; gap: 14px; font-size: 14px; }
+    .nav a{ text-decoration:none; opacity:.85; }
+    .nav a:hover{ opacity:1; text-decoration: underline; }
 
-    .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; margin-top: 18px; }
-    .card {
-      border: 1px solid rgba(0,0,0,.06);
-      border-radius: var(--radius);
-      background: #fff;
-      box-shadow: var(--shadow);
+    /* Layout */
+    .hero{
+      display:grid; grid-template-columns: 1.15fr .85fr; gap: 18px; margin-top: 18px;
+    }
+    .card{
+      border: var(--border); border-radius: var(--radius);
+      background:#fff; box-shadow: var(--shadow);
       padding: 22px;
     }
-    h1 { margin: 0 0 10px; font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; }
-    .sub { margin: 0 0 18px; font-size: 16px; opacity: .85; }
-    .pillrow { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 18px; }
-    .pill { font-size: 13px; padding: 8px 10px; border-radius: 999px; background: #f3f5ff; border: 1px solid rgba(0,0,0,.06); }
+    h1{ margin:0 0 10px; font-size: 44px; line-height:1.05; letter-spacing:-0.03em; }
+    .sub{ margin:0 0 16px; color: var(--muted); font-size: 16px; }
+    .pillrow{ display:flex; flex-wrap: wrap; gap:10px; margin: 14px 0 18px; }
+    .pill{ font-size: 13px; padding: 8px 10px; border-radius: 999px; background: var(--chip); border: var(--border); }
 
-    .ctaRow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-    button, .btn {
-      cursor: pointer;
-      border: 0;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-weight: 700;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      text-decoration: none;
+    .ctaRow{ display:flex; flex-wrap: wrap; gap: 12px; align-items:center; }
+    .btn, button{
+      cursor:pointer; border:0; border-radius: 14px; padding: 12px 14px;
+      font-weight: 800; font-size: 14px; text-decoration:none;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
       transition: transform .06s ease, opacity .2s ease;
     }
-    button:active, .btn:active { transform: translateY(1px); }
-    .primary { background: #3b5cff; color: #fff; }
-    .ghost { background: #fff; border: 1px solid rgba(0,0,0,.12); }
-    .fine { font-size: 12px; opacity: .7; margin-top: 10px; }
+    .btn:active, button:active{ transform: translateY(1px); }
+    .primary{ background: var(--primary); color:#fff; }
+    .primary:hover{ background: #1743f0; }
+    .ghost{ background:#fff; border: var(--border); }
+    .fine{ margin-top: 10px; font-size: 12px; color: rgba(16,17,20,.68); }
 
-    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
-    .mini h3 { margin: 0 0 8px; font-size: 16px; }
-    .mini p { margin: 0; font-size: 14px; opacity: .85; }
+    /* Grids */
+    .grid3{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .mini h3{ margin:0 0 8px; font-size: 16px; }
+    .mini p{ margin:0; font-size: 14px; color: var(--muted); }
 
-    .agenda { margin-top: 14px; padding-left: 16px; }
-    .agenda li { margin: 8px 0; }
-
-    form { display: grid; gap: 10px; margin-top: 12px; }
-    label { font-size: 13px; font-weight: 600; }
-    input, select {
-      width: 100%;
-      padding: 12px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(0,0,0,.14);
-      background: #fff;
-      font-size: 14px;
+    /* Form */
+    form{ display:grid; gap: 10px; margin-top: 12px; }
+    label{ font-size: 13px; font-weight: 700; }
+    input, select{
+      width:100%; padding: 12px 12px; border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.16); background:#fff; font-size: 14px;
     }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .note { font-size: 12px; opacity: .75; }
-    .success {
-      display: none;
-      margin-top: 12px;
-      padding: 12px 12px;
-      border-radius: 12px;
+    .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .note{ font-size: 12px; color: rgba(16,17,20,.72); }
+    .success{
+      display:none; margin-top: 12px; padding: 12px 12px; border-radius: 14px;
+      border: var(--border); background: #f6fffb;
+    }
+
+    /* Marketplace section */
+    .sectionTitle{ margin: 0 0 10px; font-size: 22px; letter-spacing: -0.02em; }
+    .listings{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+    .item{
+      border: var(--border); border-radius: var(--radius); background:#fff; box-shadow: var(--shadow);
+      padding: 14px;
+    }
+    .thumb{
+      height: 120px; border-radius: 14px; border: var(--border);
+      background: linear-gradient(135deg, #f2f5ff, #ffffff);
+      display:flex; align-items:center; justify-content:center; font-weight: 800; color: rgba(16,17,20,.45);
+      margin-bottom: 10px;
+    }
+    .item h4{ margin:0 0 6px; font-size: 15px; }
+    .meta{ display:flex; justify-content:space-between; gap:10px; font-size: 13px; color: var(--muted); }
+    .price{ font-weight: 900; color: var(--text); }
+
+    .callout{
       border: 1px solid rgba(0,0,0,.10);
-      background: #f6fffb;
+      background: var(--warnbg);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: rgba(16,17,20,.78);
     }
-    footer { margin-top: 22px; font-size: 12px; opacity: .75; text-align: center; }
 
-    @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; }
-      h1 { font-size: 34px; }
-      .grid3 { grid-template-columns: 1fr; }
-      header { position: static; }
+    footer{ margin-top: 24px; font-size: 12px; color: rgba(16,17,20,.7); text-align:center; }
+
+    @media (max-width: 920px){
+      header{ position: static; }
+      .hero{ grid-template-columns: 1fr; }
+      h1{ font-size: 36px; }
+      .grid3, .listings{ grid-template-columns: 1fr; }
+      .row2{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -111,64 +135,67 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <span aria-hidden="true">📈</span>
-        <span>Student Marketing Analytics Workshop</span>
-        <span class="badge">FREE</span>
+        <span aria-hidden="true">🟦</span>
+        <span>UMichSwap</span>
+        <span class="badge">Student-only</span>
       </div>
       <nav class="nav" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#agenda">Agenda</a>
-        <a href="#signup">Sign up</a>
+        <a href="#how">How it works</a>
+        <a href="#listings">Listings</a>
+        <a href="#waitlist">Join</a>
       </nav>
     </header>
 
     <main class="hero">
       <!-- Left: value prop -->
       <section class="card" id="about">
-        <h1>Learn GA4 + Tag Manager by building a real campaign.</h1>
+        <h1>Buy & sell on campus—fast, safe, and student-only.</h1>
         <p class="sub">
-          A hands-on workshop for students who want to practice marketing measurement: events, conversions, funnels, and
-          a clean dashboard you can show in interviews.
+          UMichSwap is a campus marketplace for students to list items in minutes, chat, and meet at safe on-campus pickup spots.
         </p>
 
         <div class="pillrow" role="list">
-          <span class="pill" role="listitem">✅ Beginner-friendly</span>
-          <span class="pill" role="listitem">✅ Real event tracking</span>
-          <span class="pill" role="listitem">✅ Portfolio-ready</span>
-          <span class="pill" role="listitem">✅ 60–90 minutes</span>
+          <span class="pill" role="listitem">✅ UMich email verification</span>
+          <span class="pill" role="listitem">✅ Meet-up safety tips</span>
+          <span class="pill" role="listitem">✅ No shipping hassle</span>
+          <span class="pill" role="listitem">✅ Free to list</span>
         </div>
 
         <div class="ctaRow">
-          <!-- CTA button for tracking -->
-          <a class="btn primary" id="cta_primary" href="#signup">Reserve my spot</a>
-          <a class="btn ghost" id="cta_secondary" href="#agenda">See agenda</a>
+          <!-- Keep these IDs for analytics tracking -->
+          <a class="btn primary" id="cta_primary" href="#waitlist">Join the waitlist</a>
+          <a class="btn ghost" id="cta_secondary" href="#listings">Browse demo listings</a>
         </div>
-        <p class="fine">Limited spots • Bring a laptop • No coding required (optional bonus section for HTML).</p>
+        <p class="fine">Mock brand for analytics portfolio • Designed as a lead-gen landing page + funnel tracking.</p>
 
-        <div class="grid3">
+        <div class="grid3" id="how">
           <div class="card mini">
-            <h3>What you’ll build</h3>
-            <p>A simple landing page + conversion events you can validate in GA4 DebugView.</p>
+            <h3>1) List in minutes</h3>
+            <p>Add a title, price, category, and pickup preference—then post.</p>
           </div>
           <div class="card mini">
-            <h3>What you’ll learn</h3>
-            <p>How marketers measure performance: CTA clicks, form submits, drop-offs, and channel comparisons.</p>
+            <h3>2) Chat & coordinate</h3>
+            <p>Message safely and agree on a time + on-campus pickup location.</p>
           </div>
           <div class="card mini">
-            <h3>What you’ll leave with</h3>
-            <p>A mini case study outline + screenshots for your portfolio/resume.</p>
+            <h3>3) Meet & swap</h3>
+            <p>Quick handoff, cashless options, and safety reminders built in.</p>
           </div>
+        </div>
+
+        <div class="callout">
+          <strong>Analytics goal:</strong> optimize the funnel from landing → CTA click → waitlist submit.
+          You’ll track events (CTA clicks, form submits, listing clicks, scroll depth) in GA4 via GTM.
         </div>
       </section>
 
-      <!-- Right: signup form -->
-      <aside class="card" id="signup">
-        <h2 style="margin:0 0 6px; font-size:22px;">Sign up</h2>
+      <!-- Right: waitlist form -->
+      <aside class="card" id="waitlist">
+        <h2 style="margin:0 0 6px; font-size:22px;">Join UMichSwap (waitlist)</h2>
         <p class="sub" style="margin:0 0 12px;">
-          Enter your details to get the workshop link and materials.
+          Get early access + be notified when student verification and listings go live.
         </p>
 
-        <!-- Signup form for tracking -->
         <form id="signup_form">
           <div class="row2">
             <div>
@@ -182,71 +209,87 @@
           </div>
 
           <div>
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="you@email.com" required />
+            <label for="email">UMich email</label>
+            <input id="email" name="email" type="email" placeholder="uniqname@umich.edu" required />
           </div>
 
           <div class="row2">
             <div>
-              <label for="interest">Interest</label>
-              <select id="interest" name="interest" required>
+              <label for="role">I want to…</label>
+              <select id="role" name="role" required>
                 <option value="" selected disabled>Select one</option>
-                <option value="marketing-internships">Marketing internships</option>
-                <option value="product-analytics">Product analytics</option>
-                <option value="growth-marketing">Growth marketing</option>
-                <option value="seo-content">SEO + content</option>
+                <option value="buy">Buy items</option>
+                <option value="sell">Sell items</option>
+                <option value="both">Both</option>
               </select>
             </div>
             <div>
-              <label for="level">Experience level</label>
-              <select id="level" name="level" required>
+              <label for="category">Top category</label>
+              <select id="category" name="category" required>
                 <option value="" selected disabled>Select one</option>
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
+                <option value="furniture">Furniture</option>
+                <option value="electronics">Electronics</option>
+                <option value="books">Textbooks</option>
+                <option value="clothing">Clothing</option>
+                <option value="tickets">Tickets</option>
               </select>
             </div>
           </div>
 
-          <button class="primary" id="btn_submit" type="submit">Get the workshop link</button>
-          <p class="note">By signing up, you agree to receive workshop updates. You can unsubscribe anytime.</p>
+          <button class="primary" id="btn_submit" type="submit">Request early access</button>
+          <p class="note">Demo form: no data is sent anywhere. Use GTM + GA4 to track submits as conversions.</p>
         </form>
 
         <div class="success" id="success_box" role="status" aria-live="polite">
-          ✅ Thanks! You’re signed up. (Demo form: no data is actually sent anywhere.)
+          ✅ You’re on the waitlist! (Demo mode)
         </div>
 
         <hr style="border:0; border-top:1px solid rgba(0,0,0,.08); margin:16px 0;" />
 
-        <!-- Secondary CTA: resume download link for tracking -->
-        <p style="margin:0 0 6px; font-weight:700;">Want the checklist?</p>
-        <a class="btn ghost" id="resume_download" href="workshop-checklist.pdf" download>
-          Download the GA4 tracking checklist (PDF)
+        <p style="margin:0 0 6px; font-weight:900;">Safety guide (PDF)</p>
+        <a class="btn ghost" id="resume_download" href="umichswap-safety-guide.pdf" download>
+          Download campus pickup safety guide
         </a>
-        <p class="note">Tip: replace <code>workshop-checklist.pdf</code> with your real PDF file later.</p>
+        <p class="note">Optional: upload a PDF named <code>umichswap-safety-guide.pdf</code> to enable downloads.</p>
       </aside>
     </main>
 
-    <section class="card" id="agenda" style="margin-top:18px;">
-      <h2 style="margin:0 0 10px; font-size:22px;">Agenda</h2>
-      <ul class="agenda">
-        <li>Set up GA4 + Tag Manager (and why companies prefer GTM)</li>
-        <li>Define KPIs: CTA clicks, form submit conversions, engagement</li>
-        <li>Implement tracking: click + form events (plus scroll depth)</li>
-        <li>Validate in GA4 DebugView + GTM Preview</li>
-        <li>Build a simple dashboard + write 3 insights</li>
-      </ul>
+    <section class="card" id="listings" style="margin-top:18px;">
+      <h2 class="sectionTitle">Featured listings (demo)</h2>
+      <p class="sub" style="margin:0;">
+        These are placeholder listings to simulate browsing behavior for analytics (click tracking + engagement).
+      </p>
+
+      <div class="listings">
+        <a class="item" href="#waitlist" id="listing_1" style="text-decoration:none;">
+          <div class="thumb">Photo</div>
+          <h4>Mini fridge (good condition)</h4>
+          <div class="meta"><span class="price">$45</span><span>North Campus</span></div>
+        </a>
+
+        <a class="item" href="#waitlist" id="listing_2" style="text-decoration:none;">
+          <div class="thumb">Photo</div>
+          <h4>Desk lamp + organizer</h4>
+          <div class="meta"><span class="price">$12</span><span>Central Campus</span></div>
+        </a>
+
+        <a class="item" href="#waitlist" id="listing_3" style="text-decoration:none;">
+          <div class="thumb">Photo</div>
+          <h4>ECON / Marketing textbooks bundle</h4>
+          <div class="meta"><span class="price">$30</span><span>Diag pickup</span></div>
+        </a>
+      </div>
     </section>
 
     <footer>
-      <p>© <span id="year"></span> Student Marketing Analytics Workshop • Built for GA4 + GTM practice.</p>
+      <p>© <span id="year"></span> UMichSwap • Mock brand landing page for GA4/GTM portfolio practice.</p>
     </footer>
   </div>
 
   <script>
-    // Small UX-only script (also helps you test GA4 event tracking on interactions)
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Demo-only form submit handler (does not send data anywhere)
+    // Demo-only form handler (no data sent)
     const form = document.getElementById("signup_form");
     const successBox = document.getElementById("success_box");
 
@@ -254,8 +297,8 @@
       e.preventDefault();
       successBox.style.display = "block";
       form.reset();
-      // Note: GA4 tracking should be handled via Google Tag Manager (recommended).
-      // You will set up a GTM "Form Submission" trigger for #signup_form.
+      // Tracking should be set up in Google Tag Manager (recommended).
+      // You will create a GTM Form Submission trigger for #signup_form.
     });
   </script>
 </body>
