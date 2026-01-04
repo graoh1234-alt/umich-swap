@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,13 +6,13 @@
   <title>UMichSwap — Listing</title>
   <meta name="description" content="View listing details on UMichSwap."/>
   <style>
-    :root { --max:900px; --r:18px; --sh:0 12px 34px rgba(0,0,0,.08); --b:1px solid rgba(0,0,0,.08); --p:#1f4fff; --mut:rgba(16,17,20,.75); }
+    :root { --max:1100px; --r:18px; --sh:0 12px 34px rgba(0,0,0,.08); --b:1px solid rgba(0,0,0,.08); --p:#1f4fff; --mut:rgba(16,17,20,.75); }
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#f5f8ff 0%,#fff 60%);color:#101114}
     .wrap{max-width:var(--max);margin:0 auto;padding:26px 18px 64px}
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border:var(--b);border-radius:var(--r);box-shadow:var(--sh);position:sticky;top:12px;z-index:10}
     .brand{display:flex;align-items:center;gap:10px;font-weight:900}
-    .nav{display:flex;gap:14px;font-size:14px}
+    .nav{display:flex;gap:14px;font-size:14px;flex-wrap:wrap}
     .nav a{text-decoration:none;opacity:.85} .nav a:hover{opacity:1;text-decoration:underline}
     .card{border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:18px;margin-top:18px}
     h1{margin:18px 0 6px;font-size:30px;letter-spacing:-.02em}
@@ -29,8 +28,11 @@
     .primary{background:var(--p);color:#fff}
     .ghost{border:var(--b);background:#fff}
     .danger{background:#ff3b30;color:#fff}
+    .grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+    .warn{font-size:12px;color:rgba(16,17,20,.7)}
+    .error{display:none;margin-top:10px;padding:12px;border-radius:14px;border:var(--b);background:#fff8e6;color:rgba(16,17,20,.85)}
     footer{margin-top:22px;text-align:center;font-size:12px;color:rgba(16,17,20,.7)}
-    @media(max-width:920px){header{position:static}.row2{grid-template-columns:1fr}}
+    @media(max-width:920px){header{position:static}.row2{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -43,96 +45,125 @@
         <a href="list-item.html">List an item</a>
         <a href="safety.html">Safety</a>
         <a href="inbox.html" id="nav_inbox">Inbox</a>
-
       </nav>
     </header>
 
     <h1 id="title">Listing</h1>
     <p class="sub" id="subtitle">Loading…</p>
 
-    <section class="card" id="view_card" style="display:none;">
-      <div class="thumb">Photo</div>
+    <!-- MAIN GRID: left = listing, right = message seller -->
+    <div class="grid2">
+      <!-- LEFT: view/edit/error like your original -->
+      <div>
+        <section class="card" id="view_card" style="display:none;">
+          <div class="thumb">Photo</div>
 
-      <div class="meta">
-        <span class="price" id="price"></span>
-        <span id="category"></span>
-        <span id="campus"></span>
-        <span id="contact"></span>
+          <div class="meta">
+            <span class="price" id="price"></span>
+            <span id="category"></span>
+            <span id="campus"></span>
+            <span id="contact"></span>
+            <span id="seller"></span>
+          </div>
+
+          <p style="margin:12px 0 0;white-space:pre-wrap" id="desc"></p>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+            <button class="btn primary" id="btn_edit">Edit listing</button>
+            <button class="btn danger" id="btn_delete">Delete listing</button>
+            <a class="btn ghost" href="listings.html">Back to listings</a>
+          </div>
+        </section>
+
+        <section class="card" id="edit_card" style="display:none;">
+          <h2 style="margin:0 0 8px;font-size:18px">Edit listing</h2>
+
+          <form id="edit_form">
+            <div>
+              <label for="edit_title">Item title</label>
+              <input id="edit_title" required />
+            </div>
+
+            <div class="row2">
+              <div>
+                <label for="edit_category">Category</label>
+                <select id="edit_category" required>
+                  <option>Furniture</option>
+                  <option>Electronics</option>
+                  <option>Textbooks</option>
+                  <option>Clothing</option>
+                  <option>Tickets</option>
+                </select>
+              </div>
+              <div>
+                <label for="edit_price">Price (USD)</label>
+                <input id="edit_price" type="number" min="0" step="1" required />
+              </div>
+            </div>
+
+            <div class="row2">
+              <div>
+                <label for="edit_campus">Pickup area</label>
+                <select id="edit_campus" required>
+                  <option>Central Campus</option>
+                  <option>North Campus</option>
+                  <option>Diag / Union</option>
+                </select>
+              </div>
+              <div>
+                <label for="edit_contact">Contact preference</label>
+                <select id="edit_contact" required>
+                  <option>In-app chat</option>
+                  <option>Text message</option>
+                  <option>Email</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="edit_desc">Description</label>
+              <textarea id="edit_desc" required></textarea>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+              <button class="btn primary" type="submit">Save changes</button>
+              <button class="btn ghost" type="button" id="btn_cancel">Cancel</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card" id="error_card" style="display:none;">
+          <strong>This listing may have been removed or the link is incorrect.</strong>
+          <p style="margin:8px 0 0;color:rgba(16,17,20,.75)">Try going back to Listings and selecting an item again.</p>
+          <div style="margin-top:12px">
+            <a class="btn primary" href="listings.html">Back to Listings</a>
+          </div>
+        </section>
       </div>
 
-      <p style="margin:12px 0 0;white-space:pre-wrap" id="desc"></p>
+      <!-- RIGHT: NEW Message Seller section -->
+      <aside class="card" id="message_card" style="display:none;">
+        <div style="font-weight:1000;font-size:18px">Message seller</div>
+        <p class="sub" style="margin-top:6px">Send an interest message. This will appear in Inbox.</p>
 
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
-        <button class="btn primary" id="btn_edit">Edit listing</button>
-        <button class="btn danger" id="btn_delete">Delete listing</button>
-        <a class="btn ghost" href="listings.html">Back to listings</a>
-      </div>
-    </section>
+        <div class="warn" id="profile_hint"></div>
 
-    <section class="card" id="edit_card" style="display:none;">
-      <h2 style="margin:0 0 8px;font-size:18px">Edit listing</h2>
+        <label for="buyerName">Your name (buyer)</label>
+        <input id="buyerName" placeholder="e.g., Grace" />
 
-      <form id="edit_form">
-        <div>
-          <label for="edit_title">Item title</label>
-          <input id="edit_title" required />
-        </div>
-
-        <div class="row2">
-          <div>
-            <label for="edit_category">Category</label>
-            <select id="edit_category" required>
-              <option>Furniture</option>
-              <option>Electronics</option>
-              <option>Textbooks</option>
-              <option>Clothing</option>
-              <option>Tickets</option>
-            </select>
-          </div>
-          <div>
-            <label for="edit_price">Price (USD)</label>
-            <input id="edit_price" type="number" min="0" step="1" required />
-          </div>
-        </div>
-
-        <div class="row2">
-          <div>
-            <label for="edit_campus">Pickup area</label>
-            <select id="edit_campus" required>
-              <option>Central Campus</option>
-              <option>North Campus</option>
-              <option>Diag / Union</option>
-            </select>
-          </div>
-          <div>
-            <label for="edit_contact">Contact preference</label>
-            <select id="edit_contact" required>
-              <option>In-app chat</option>
-              <option>Text message</option>
-              <option>Email</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label for="edit_desc">Description</label>
-          <textarea id="edit_desc" required></textarea>
-        </div>
+        <label for="msg">Message</label>
+        <textarea id="msg" placeholder="Hi! Is this still available? When can we meet on campus?"></textarea>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-          <button class="btn primary" type="submit">Save changes</button>
-          <button class="btn ghost" type="button" id="btn_cancel">Cancel</button>
+          <button class="btn primary" id="btn_send_msg" type="button">Send message</button>
+          <a class="btn ghost" href="inbox.html">Open Inbox</a>
         </div>
-      </form>
-    </section>
 
-    <section class="card" id="error_card" style="display:none;">
-      <strong>This listing may have been removed or the link is incorrect.</strong>
-      <p style="margin:8px 0 0;color:rgba(16,17,20,.75)">Try going back to Listings and selecting an item again.</p>
-      <div style="margin-top:12px">
-        <a class="btn primary" href="listings.html">Back to Listings</a>
-      </div>
-    </section>
+        <div class="error" id="msg_err"></div>
+
+        <p class="warn" style="margin-top:10px">Demo: stored in your browser via localStorage (no backend).</p>
+      </aside>
+    </div>
 
     <footer>© <span id="year"></span> UMichSwap</footer>
   </div>
@@ -140,27 +171,36 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    // ---- Listing storage ----
     const STORAGE_KEY = "umichswap_listings";
+    const STORAGE_DEMO = "umichswap_demo_featured";
+
+    // ---- Messaging storage (MUST match inbox.html) ----
+    const STORAGE_PROFILE = "umichswap_profile";
+    const STORAGE_THREADS = "umichswap_threads";
+    const STORAGE_MESSAGES = "umichswap_messages";
 
     function getQueryParam(name){
       const url = new URL(window.location.href);
       return url.searchParams.get(name);
     }
 
+    function loadJSON(key, fallback){
+      try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+      catch { return fallback; }
+    }
+    function saveJSON(key, val){
+      localStorage.setItem(key, JSON.stringify(val));
+    }
+
     function loadUserListings(){
       return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     }
-
     function saveUserListings(list){
       localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
     }
-
     function loadDemoFeatured(){
-      return JSON.parse(localStorage.getItem("umichswap_demo_featured") || "[]");
-    }
-
-    function escapeHTML(s){
-      return String(s).replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+      return JSON.parse(localStorage.getItem(STORAGE_DEMO) || "[]");
     }
 
     const listingId = getQueryParam("id");
@@ -176,6 +216,7 @@
     const viewCard = document.getElementById("view_card");
     const editCard = document.getElementById("edit_card");
     const errorCard = document.getElementById("error_card");
+    const messageCard = document.getElementById("message_card");
 
     if (!listingId || !listing) {
       document.getElementById("title").textContent = "Listing not found";
@@ -189,9 +230,14 @@
       document.getElementById("category").textContent = listing.category || "";
       document.getElementById("campus").textContent = listing.campus || "";
       document.getElementById("contact").textContent = listing.contact || "";
-      document.getElementById("desc").textContent = listing.desc || "";
 
+      // Seller name (optional)
+      const sellerName = listing.sellerName || "Seller";
+      document.getElementById("seller").textContent = `Seller: ${sellerName}`;
+
+      document.getElementById("desc").textContent = listing.desc || "";
       viewCard.style.display = "block";
+      messageCard.style.display = "block";
 
       const isDemo = String(listing.id).startsWith("demo");
 
@@ -209,6 +255,7 @@
       document.getElementById("btn_edit").addEventListener("click", () => {
         if (isDemo) return;
         viewCard.style.display = "none";
+        messageCard.style.display = "none";
         editCard.style.display = "block";
 
         document.getElementById("edit_title").value = listing.title || "";
@@ -222,6 +269,7 @@
       document.getElementById("btn_cancel").addEventListener("click", () => {
         editCard.style.display = "none";
         viewCard.style.display = "block";
+        messageCard.style.display = "block";
       });
 
       document.getElementById("edit_form").addEventListener("submit", (e) => {
@@ -244,7 +292,6 @@
           saveUserListings(list);
         }
 
-        // Reload
         window.location.href = `item.html?id=${encodeURIComponent(listingId)}&updated=1`;
       });
 
@@ -257,6 +304,82 @@
         const list = loadUserListings().filter(x => String(x.id) !== String(listingId));
         saveUserListings(list);
         window.location.href = "listings.html?deleted=1";
+      });
+
+      // ---- Message seller integration ----
+      const prof = loadJSON(STORAGE_PROFILE, { role:"buyer", name:"" });
+      const buyerNameInput = document.getElementById("buyerName");
+      const hint = document.getElementById("profile_hint");
+      const msgErr = document.getElementById("msg_err");
+
+      if (prof && prof.name) {
+        buyerNameInput.value = prof.name;
+        hint.textContent = `Using saved profile: ${prof.name} (${prof.role}). You can edit your name here.`;
+      } else {
+        hint.textContent = "Tip: Save your name in Inbox → it will auto-fill here.";
+      }
+
+      document.getElementById("btn_send_msg").addEventListener("click", () => {
+        msgErr.style.display = "none";
+        msgErr.textContent = "";
+
+        const buyerName = buyerNameInput.value.trim();
+        const text = document.getElementById("msg").value.trim();
+        const seller = sellerName;
+
+        if (!buyerName) {
+          msgErr.style.display = "block";
+          msgErr.textContent = "Please enter your name (buyer).";
+          return;
+        }
+        if (!text) {
+          msgErr.style.display = "block";
+          msgErr.textContent = "Please type a message.";
+          return;
+        }
+
+        // Stable thread id per listing + buyer + seller so it continues
+        const threadId = `listing:${listing.id}|buyer:${buyerName}|seller:${seller}`;
+
+        const threads = loadJSON(STORAGE_THREADS, []);
+        const messagesMap = loadJSON(STORAGE_MESSAGES, {});
+
+        let thread = threads.find(t => t.threadId === threadId);
+        if (!thread) {
+          thread = {
+            threadId,
+            listingId: listing.id,
+            listingTitle: listing.title || "Listing",
+            buyerName,
+            sellerName: seller,
+            lastActivity: Date.now()
+          };
+          threads.unshift(thread);
+        } else {
+          thread.buyerName = buyerName;
+          thread.sellerName = seller;
+          thread.lastActivity = Date.now();
+        }
+
+        const msgObj = {
+          ts: Date.now(),
+          from: "buyer",
+          name: buyerName,
+          text
+        };
+
+        const existingMsgs = messagesMap[threadId] || [];
+        existingMsgs.push(msgObj);
+        messagesMap[threadId] = existingMsgs;
+
+        saveJSON(STORAGE_THREADS, threads);
+        saveJSON(STORAGE_MESSAGES, messagesMap);
+
+        // Save profile for convenience
+        saveJSON(STORAGE_PROFILE, { role:"buyer", name: buyerName });
+
+        // Go to chat page
+        window.location.href = `chat.html?thread=${encodeURIComponent(threadId)}`;
       });
     }
   </script>
