@@ -51,9 +51,7 @@
     <h1 id="title">Listing</h1>
     <p class="sub" id="subtitle">Loading…</p>
 
-    <!-- MAIN GRID: left = listing, right = message seller -->
     <div class="grid2">
-      <!-- LEFT: view/edit/error like your original -->
       <div>
         <section class="card" id="view_card" style="display:none;">
           <div class="thumb">Photo</div>
@@ -141,7 +139,6 @@
         </section>
       </div>
 
-      <!-- RIGHT: NEW Message Seller section -->
       <aside class="card" id="message_card" style="display:none;">
         <div style="font-weight:1000;font-size:18px">Message seller</div>
         <p class="sub" style="margin-top:6px">Send an interest message. This will appear in Inbox.</p>
@@ -175,7 +172,7 @@
     const STORAGE_KEY = "umichswap_listings";
     const STORAGE_DEMO = "umichswap_demo_featured";
 
-    // ---- Messaging storage (MUST match inbox.html) ----
+    // ---- Messaging storage (MUST match inbox.html & chat.html) ----
     const STORAGE_PROFILE = "umichswap_profile";
     const STORAGE_THREADS = "umichswap_threads";
     const STORAGE_MESSAGES = "umichswap_messages";
@@ -203,14 +200,19 @@
       return JSON.parse(localStorage.getItem(STORAGE_DEMO) || "[]");
     }
 
+    function getProfile(){
+      const prof = loadJSON(STORAGE_PROFILE, { role:"buyer", name:"" });
+      return {
+        role: (prof.role || "buyer"),
+        name: (prof.name || "").trim()
+      };
+    }
+
     const listingId = getQueryParam("id");
     const userListings = loadUserListings();
     const demoListings = loadDemoFeatured();
 
-    // Find in user listings first
     let listing = userListings.find(x => String(x.id) === String(listingId));
-
-    // If not found, check demo featured (demo ids like demo1)
     if (!listing) listing = demoListings.find(x => String(x.id) === String(listingId));
 
     const viewCard = document.getElementById("view_card");
@@ -223,7 +225,6 @@
       document.getElementById("subtitle").textContent = "";
       errorCard.style.display = "block";
     } else {
-      // Render view
       document.getElementById("title").textContent = listing.title;
       document.getElementById("subtitle").textContent = "Listing details (demo).";
       document.getElementById("price").textContent = `$${Number(listing.price || 0)}`;
@@ -231,7 +232,6 @@
       document.getElementById("campus").textContent = listing.campus || "";
       document.getElementById("contact").textContent = listing.contact || "";
 
-      // Seller name (optional)
       const sellerName = listing.sellerName || "Seller";
       document.getElementById("seller").textContent = `Seller: ${sellerName}`;
 
@@ -241,7 +241,6 @@
 
       const isDemo = String(listing.id).startsWith("demo");
 
-      // Demo listings: disable edit/delete
       if (isDemo) {
         document.getElementById("btn_edit").disabled = true;
         document.getElementById("btn_delete").disabled = true;
@@ -251,7 +250,6 @@
         document.getElementById("btn_delete").style.opacity = 0.6;
       }
 
-      // Edit flow (only for user listings)
       document.getElementById("btn_edit").addEventListener("click", () => {
         if (isDemo) return;
         viewCard.style.display = "none";
@@ -295,7 +293,6 @@
         window.location.href = `item.html?id=${encodeURIComponent(listingId)}&updated=1`;
       });
 
-      // Delete flow (only for user listings)
       document.getElementById("btn_delete").addEventListener("click", () => {
         if (isDemo) return;
         const ok = confirm("Delete this listing? (Demo: removes from your local browser)");
@@ -306,13 +303,13 @@
         window.location.href = "listings.html?deleted=1";
       });
 
-      // ---- Message seller integration ----
-      const prof = loadJSON(STORAGE_PROFILE, { role:"buyer", name:"" });
+      // ---- ✅ FIXED Message seller integration ----
       const buyerNameInput = document.getElementById("buyerName");
       const hint = document.getElementById("profile_hint");
       const msgErr = document.getElementById("msg_err");
 
-      if (prof && prof.name) {
+      const prof = getProfile();
+      if (prof.name) {
         buyerNameInput.value = prof.name;
         hint.textContent = `Using saved profile: ${prof.name} (${prof.role}). You can edit your name here.`;
       } else {
@@ -338,12 +335,16 @@
           return;
         }
 
-        // Stable thread id per listing + buyer + seller so it continues
+        // ✅ Ensure profile is buyer when messaging from this panel
+        saveJSON(STORAGE_PROFILE, { role: "buyer", name: buyerName });
+
+        // ✅ Stable thread id (continues the same conversation)
         const threadId = `listing:${listing.id}|buyer:${buyerName}|seller:${seller}`;
 
         const threads = loadJSON(STORAGE_THREADS, []);
         const messagesMap = loadJSON(STORAGE_MESSAGES, {});
 
+        // Find or create thread
         let thread = threads.find(t => t.threadId === threadId);
         if (!thread) {
           thread = {
@@ -359,13 +360,23 @@
           thread.buyerName = buyerName;
           thread.sellerName = seller;
           thread.lastActivity = Date.now();
+
+          // ✅ move to top (nice UX)
+          const idx = threads.findIndex(x => x.threadId === threadId);
+          if (idx > 0) {
+            threads.splice(idx, 1);
+            threads.unshift(thread);
+          }
         }
 
+        // ✅ IMPORTANT FIX:
+        // Save message in the format chat.html expects: senderRole/senderName
         const msgObj = {
+          id: Date.now(),
           ts: Date.now(),
-          from: "buyer",
-          name: buyerName,
-          text
+          text,
+          senderRole: "buyer",
+          senderName: buyerName
         };
 
         const existingMsgs = messagesMap[threadId] || [];
@@ -375,10 +386,7 @@
         saveJSON(STORAGE_THREADS, threads);
         saveJSON(STORAGE_MESSAGES, messagesMap);
 
-        // Save profile for convenience
-        saveJSON(STORAGE_PROFILE, { role:"buyer", name: buyerName });
-
-        // Go to chat page
+        // Go to chat
         window.location.href = `chat.html?thread=${encodeURIComponent(threadId)}`;
       });
     }
