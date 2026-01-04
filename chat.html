@@ -108,19 +108,18 @@
     // Always read profile fresh (so if you changed name/role in inbox.html it reflects here)
     function getProfile(){
       const prof = loadJSON(STORAGE_PROFILE, { role:"buyer", name:"" });
-      return {
-        role: (prof.role || "buyer"),
-        name: (prof.name || "").trim()
-      };
+      const role = (prof.role || "buyer");
+      const name = (prof.name || "").trim();
+      return { role, name };
     }
-
-    const threads = loadJSON(STORAGE_THREADS, []);
-    const t = threads.find(x => x.threadId === threadId);
 
     const chatEl = document.getElementById("chat");
     const titleEl = document.getElementById("title");
     const subEl = document.getElementById("subtitle");
     const viewListing = document.getElementById("view_listing");
+
+    const threads = loadJSON(STORAGE_THREADS, []);
+    const t = threads.find(x => x.threadId === threadId);
 
     if(!t){
       titleEl.textContent = "This conversation can’t be found";
@@ -140,38 +139,57 @@
       render();
     }
 
+    // ✅ FIX 1: Decide "mine" using role (stable) + also repair old/bad messages.
     function render(){
       const { role: meRole, name: meNameRaw } = getProfile();
       const meName = meNameRaw || "You";
 
       document.getElementById("whoami").textContent = `You: ${meNameRaw || "Anonymous"} (${meRole})`;
 
-      // figure out “other” name (nice label)
-      const otherName =
-        meRole === "buyer"
-          ? (t?.sellerName || "Seller")
-          : (t?.buyerName || "Buyer");
+      const otherName = (meRole === "buyer")
+        ? (t?.sellerName || "Seller")
+        : (t?.buyerName || "Buyer");
 
       const messagesMap = loadJSON(STORAGE_MESSAGES, {});
       const msgs = messagesMap[threadId] || [];
 
+      // ✅ FIX 2: Auto-repair old messages that were saved with missing/wrong role/name.
+      // (This is why your message showed as "Seller" — it was stored that way.)
+      let changed = false;
+      for (const m of msgs) {
+        // If missing senderRole, infer from senderName vs thread names
+        if (!m.senderRole) {
+          if ((m.senderName || "") === (t?.buyerName || "Buyer")) { m.senderRole = "buyer"; changed = true; }
+          else if ((m.senderName || "") === (t?.sellerName || "Seller")) { m.senderRole = "seller"; changed = true; }
+        }
+
+        // If still missing senderRole, default to buyer (safe)
+        if (!m.senderRole) { m.senderRole = "buyer"; changed = true; }
+
+        // If missing senderName, fill from role
+        if (!m.senderName) {
+          m.senderName = (m.senderRole === "seller" ? (t?.sellerName || "Seller") : (t?.buyerName || "Buyer"));
+          changed = true;
+        }
+
+        // If message claims seller but you are buyer AND the message was created by you earlier,
+        // we *cannot* be 100% sure. But we can correct labels in UI by role logic below.
+      }
+      if (changed) {
+        messagesMap[threadId] = msgs;
+        saveJSON(STORAGE_MESSAGES, messagesMap);
+      }
+
       chatEl.innerHTML = "";
 
       msgs.forEach(m => {
-        // ✅ FIX: determine mine by role ONLY (name can change)
+        // ✅ mine = role match (stable even if name changes)
         const isMe = (m.senderRole === meRole);
 
-        // ✅ FIX: if it’s mine, always show my current profile name
-        (function normalizeSenderFields(){
-          // optional: if old messages missing fields, try to infer minimally
-          if(!m.senderRole){
-            m.senderRole = "buyer";
-          }
-        })();
-
+        // ✅ display name: if mine show my current name; else show other party name
         const displayName = isMe
           ? meName
-          : (m.senderName || otherName || "Someone");
+          : (m.senderRole === "seller" ? (t?.sellerName || otherName) : (t?.buyerName || otherName) || "Someone");
 
         const row = document.createElement("div");
         row.className = "msg " + (isMe ? "me" : "them");
@@ -196,6 +214,7 @@
       }
     });
 
+    // ✅ FIX 3: Always store senderRole from profile (never hardcode Seller/Buyer).
     function sendMessage(){
       const txt = document.getElementById("text").value.trim();
       if(!txt || !t) return;
@@ -206,7 +225,6 @@
       const messagesMap = loadJSON(STORAGE_MESSAGES, {});
       const msgs = messagesMap[threadId] || [];
 
-      // ✅ store both role + name
       msgs.push({
         id: Date.now(),
         text: txt,
