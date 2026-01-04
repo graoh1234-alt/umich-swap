@@ -20,7 +20,7 @@
     .topbar{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
     h1{margin:0;font-size:22px;letter-spacing:-.02em}
     .sub{margin:4px 0 0;color:var(--mut);font-size:13px}
-    .pill{font-size:12px;padding:6px 10px;border-radius:999px;border:var(--b);background:#fff;color:rgba(16,17,20,.75)}
+    .pill{font-size:12px;padding:6px 10px;border-radius:999px;border:var(--b);background:#fff;color:rgba(16,17,20,.75);text-decoration:none}
     .chatBox{height:420px;overflow:auto;border:var(--b);border-radius:var(--r);padding:14px;background:linear-gradient(180deg,#fff 0%,#fbfcff 100%)}
     .msg{display:flex;margin:10px 0}
     .bubble{max-width:70%;padding:10px 12px;border-radius:16px;border:var(--b);box-shadow:0 10px 20px rgba(0,0,0,.04);font-size:14px;line-height:1.35}
@@ -88,13 +88,31 @@
       try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
       catch { return fallback; }
     }
-    function saveJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+    function saveJSON(key, val){
+      localStorage.setItem(key, JSON.stringify(val));
+    }
+
+    function escapeHTML(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;")
+        .replaceAll("\n","<br/>");
+    }
 
     const params = new URLSearchParams(location.search);
     const threadId = params.get("thread") || "";
 
-    const prof = loadJSON(STORAGE_PROFILE, { role:"buyer", name:"" });
-    document.getElementById("whoami").textContent = `You: ${prof.name || "Anonymous"} (${prof.role})`;
+    // Always read profile fresh (so if you changed name/role in inbox.html it reflects here)
+    function getProfile(){
+      const prof = loadJSON(STORAGE_PROFILE, { role:"buyer", name:"" });
+      return {
+        role: (prof.role || "buyer"),
+        name: (prof.name || "").trim()
+      };
+    }
 
     const threads = loadJSON(STORAGE_THREADS, []);
     const t = threads.find(x => x.threadId === threadId);
@@ -115,7 +133,7 @@
     } else {
       titleEl.textContent = t.listingTitle || "Chat";
       subEl.textContent = `Buyer: ${t.buyerName || "Buyer"} • Seller: ${t.sellerName || "Seller"}`;
-      // If you have item.html, link to it:
+
       if(t.listingId){
         viewListing.href = `item.html?id=${encodeURIComponent(t.listingId)}`;
       }
@@ -123,21 +141,49 @@
     }
 
     function render(){
+      const { role: meRole, name: meNameRaw } = getProfile();
+      const meName = meNameRaw || "You";
+
+      document.getElementById("whoami").textContent = `You: ${meNameRaw || "Anonymous"} (${meRole})`;
+
+      // figure out “other” name (nice label)
+      const otherName =
+        meRole === "buyer"
+          ? (t?.sellerName || "Seller")
+          : (t?.buyerName || "Buyer");
+
       const messagesMap = loadJSON(STORAGE_MESSAGES, {});
       const msgs = messagesMap[threadId] || [];
+
       chatEl.innerHTML = "";
+
       msgs.forEach(m => {
-        const isMe = (m.senderRole === prof.role && m.senderName === prof.name);
+        // ✅ FIX: determine mine by role ONLY (name can change)
+        const isMe = (m.senderRole === meRole);
+
+        // ✅ FIX: if it’s mine, always show my current profile name
+        (function normalizeSenderFields(){
+          // optional: if old messages missing fields, try to infer minimally
+          if(!m.senderRole){
+            m.senderRole = "buyer";
+          }
+        })();
+
+        const displayName = isMe
+          ? meName
+          : (m.senderName || otherName || "Someone");
+
         const row = document.createElement("div");
         row.className = "msg " + (isMe ? "me" : "them");
         row.innerHTML = `
           <div class="bubble">
             ${escapeHTML(m.text)}
-            <div class="meta">${escapeHTML(m.senderName || "Someone")} • ${new Date(m.ts).toLocaleString()}</div>
+            <div class="meta">${escapeHTML(displayName)} • ${new Date(m.ts).toLocaleString()}</div>
           </div>
         `;
         chatEl.appendChild(row);
       });
+
       chatEl.scrollTop = chatEl.scrollHeight;
     }
 
@@ -154,13 +200,21 @@
       const txt = document.getElementById("text").value.trim();
       if(!txt || !t) return;
 
-      const senderName = prof.name || "Anonymous";
-      const senderRole = prof.role || "buyer";
+      const { role: senderRole, name: nameRaw } = getProfile();
+      const senderName = (nameRaw || "").trim() || "Anonymous";
 
       const messagesMap = loadJSON(STORAGE_MESSAGES, {});
       const msgs = messagesMap[threadId] || [];
 
-      msgs.push({ text: txt, senderName, senderRole, ts: Date.now() });
+      // ✅ store both role + name
+      msgs.push({
+        id: Date.now(),
+        text: txt,
+        senderName,
+        senderRole,
+        ts: Date.now()
+      });
+
       messagesMap[threadId] = msgs;
       saveJSON(STORAGE_MESSAGES, messagesMap);
 
@@ -189,16 +243,6 @@
 
       location.href = "inbox.html";
     });
-
-    function escapeHTML(s){
-      return String(s ?? "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;")
-        .replaceAll("\n","<br/>");
-    }
   </script>
 </body>
 </html>
