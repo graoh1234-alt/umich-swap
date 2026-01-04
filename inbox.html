@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>UMichSwap — Inbox</title>
+  <meta name="description" content="UMichSwap inbox. View and manage your marketplace chats."/>
+  <style>
+    :root{--max:1100px;--r:18px;--sh:0 12px 34px rgba(0,0,0,.08);--b:1px solid rgba(0,0,0,.08);--p:#1f4fff;--mut:rgba(16,17,20,.75);--bg:linear-gradient(180deg,#f5f8ff 0%,#fff 60%)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:#101114}
+    a{color:inherit}
+    .wrap{max-width:var(--max);margin:0 auto;padding:26px 18px 64px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px);border:var(--b);border-radius:var(--r);box-shadow:var(--sh);position:sticky;top:12px;z-index:10}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900}
+    .nav{display:flex;gap:14px;font-size:14px}
+    .nav a{text-decoration:none;opacity:.85}
+    .nav a:hover{opacity:1;text-decoration:underline}
+    h1{margin:18px 0 8px;font-size:34px;letter-spacing:-.02em}
+    .sub{margin:0 0 16px;color:var(--mut)}
+    .card{border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);padding:18px;margin-top:14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    input,select{padding:12px;border-radius:14px;border:1px solid rgba(0,0,0,.16);font-size:14px}
+    input{min-width:260px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:14px;font-weight:900;font-size:14px;text-decoration:none;border:0;cursor:pointer}
+    .primary{background:var(--p);color:#fff}
+    .ghost{border:var(--b);background:#fff}
+    .threads{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+    .thread{display:flex;gap:12px;align-items:center;padding:14px;border:var(--b);border-radius:var(--r);background:#fff;box-shadow:var(--sh);text-decoration:none}
+    .avatar{width:42px;height:42px;border-radius:14px;border:var(--b);background:linear-gradient(135deg,#f2f5ff,#fff);display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(16,17,20,.5)}
+    .tMain{flex:1;min-width:0}
+    .tTop{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+    .tTitle{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tMeta{font-size:12px;color:rgba(16,17,20,.7)}
+    .tMsg{margin-top:3px;font-size:13px;color:rgba(16,17,20,.78);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .pill{font-size:12px;padding:6px 10px;border-radius:999px;border:var(--b);background:#fff;color:rgba(16,17,20,.75)}
+    .empty{padding:14px;border-radius:14px;border:var(--b);background:#f6fffb;color:rgba(16,17,20,.78)}
+    footer{margin-top:22px;text-align:center;font-size:12px;color:rgba(16,17,20,.7)}
+    @media(max-width:720px){header{position:static}.tTop{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><span aria-hidden="true">🟦</span><span>UMichSwap</span></div>
+      <nav class="nav">
+        <a href="index.html" id="nav_home">Home</a>
+        <a href="listings.html" id="nav_listings">Listings</a>
+        <a href="list-item.html" id="nav_list_item">List an item</a>
+        <a href="inbox.html" id="nav_inbox">Inbox</a>
+        <a href="safety.html" id="nav_safety">Safety</a>
+      </nav>
+    </header>
+
+    <h1>Inbox</h1>
+    <p class="sub">Demo messaging. Conversations are stored in your browser (localStorage) — no backend.</p>
+
+    <section class="card">
+      <div class="row">
+        <label for="me" style="font-weight:900;font-size:13px;">You are:</label>
+        <select id="me">
+          <option value="buyer">Buyer</option>
+          <option value="seller">Seller</option>
+        </select>
+
+        <input id="displayName" placeholder="Display name (e.g., Grace)" />
+        <button class="btn primary" id="btn_save_profile">Save</button>
+
+        <span class="pill" id="profile_status">Not saved</span>
+      </div>
+
+      <p style="margin:10px 0 0;font-size:12px;color:rgba(16,17,20,.7)">
+        Tip: Set “Buyer” if you’re messaging sellers; set “Seller” if you’re replying as the seller.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <div style="font-weight:900">Your conversations</div>
+          <div style="font-size:12px;color:rgba(16,17,20,.7)">Click a thread to open the chat</div>
+        </div>
+        <button class="btn ghost" id="btn_clear_demo">Clear demo chats</button>
+      </div>
+
+      <div class="threads" id="threads"></div>
+      <div id="empty" class="empty" style="display:none;margin-top:12px;">
+        No conversations yet. Go to a listing and click <b>Message seller</b> to start a chat.
+      </div>
+    </section>
+
+    <footer>© <span id="year"></span> UMichSwap</footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const STORAGE_PROFILE = "umichswap_profile";
+    const STORAGE_THREADS = "umichswap_threads"; // array of thread objects
+    const STORAGE_MESSAGES = "umichswap_messages"; // map: threadId -> messages[]
+
+    function loadJSON(key, fallback){
+      try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+      catch { return fallback; }
+    }
+    function saveJSON(key, val){
+      localStorage.setItem(key, JSON.stringify(val));
+    }
+
+    // Profile UI
+    const meSel = document.getElementById("me");
+    const nameInp = document.getElementById("displayName");
+    const status = document.getElementById("profile_status");
+    const btnSave = document.getElementById("btn_save_profile");
+
+    const prof = loadJSON(STORAGE_PROFILE, { role:"buyer", name:"" });
+    meSel.value = prof.role || "buyer";
+    nameInp.value = prof.name || "";
+    status.textContent = (prof.name ? `Saved: ${prof.name} (${prof.role})` : "Not saved");
+
+    btnSave.addEventListener("click", () => {
+      const next = { role: meSel.value, name: nameInp.value.trim() };
+      saveJSON(STORAGE_PROFILE, next);
+      status.textContent = (next.name ? `Saved: ${next.name} (${next.role})` : "Not saved");
+      renderThreads();
+    });
+
+    // Render threads
+    function renderThreads(){
+      const threadsEl = document.getElementById("threads");
+      const emptyEl = document.getElementById("empty");
+      threadsEl.innerHTML = "";
+
+      const threads = loadJSON(STORAGE_THREADS, []);
+      const messagesMap = loadJSON(STORAGE_MESSAGES, {});
+
+      // Sort by lastActivity desc
+      threads.sort((a,b) => (b.lastActivity || 0) - (a.lastActivity || 0));
+
+      if(!threads.length){
+        emptyEl.style.display = "block";
+        return;
+      }
+      emptyEl.style.display = "none";
+
+      threads.forEach(t => {
+        const msgs = messagesMap[t.threadId] || [];
+        const last = msgs[msgs.length-1];
+        const lastText = last ? last.text : "No messages yet";
+        const lastAt = last ? new Date(last.ts).toLocaleString() : "";
+
+        const a = document.createElement("a");
+        a.className = "thread";
+        a.href = `chat.html?thread=${encodeURIComponent(t.threadId)}`;
+
+        a.innerHTML = `
+          <div class="avatar">💬</div>
+          <div class="tMain">
+            <div class="tTop">
+              <div class="tTitle">${escapeHTML(t.listingTitle || "Listing")}</div>
+              <div class="tMeta">${escapeHTML(lastAt)}</div>
+            </div>
+            <div class="tMsg">${escapeHTML(lastText)}</div>
+            <div class="tMeta">Buyer: ${escapeHTML(t.buyerName || "Buyer")} • Seller: ${escapeHTML(t.sellerName || "Seller")}</div>
+          </div>
+          <span class="pill">Open</span>
+        `;
+        threadsEl.appendChild(a);
+      });
+    }
+
+    // Clear demo
+    document.getElementById("btn_clear_demo").addEventListener("click", () => {
+      localStorage.removeItem(STORAGE_THREADS);
+      localStorage.removeItem(STORAGE_MESSAGES);
+      renderThreads();
+    });
+
+    function escapeHTML(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    renderThreads();
+  </script>
+</body>
+</html>
